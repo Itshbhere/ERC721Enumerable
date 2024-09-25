@@ -19,8 +19,6 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     ) public onlyOwner {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
-
-        //We can this for custom token id,s
         // ++tokenId;
     }
 
@@ -56,5 +54,14 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    function getOwnedTokenIds() public view returns (uint256[] memory) {
+        uint256 totalTokens = balanceOf(msg.sender);
+        uint256[] memory ids = new uint256[](totalTokens);
+        for (uint256 i = 0; i < totalTokens; ++i) {
+            ids[i] = tokenOfOwnerByIndex(msg.sender, i);
+        }
+        return ids;
     }
 }
