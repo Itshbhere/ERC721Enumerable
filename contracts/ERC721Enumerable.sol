@@ -8,9 +8,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
-    constructor(
-        address initialOwner
-    ) ERC721("DeathGod", "DTG") Ownable(initialOwner) {}
+    constructor() ERC721("DeathGod", "DTG") Ownable(msg.sender) {}
+
+    // uint256 private tokenId = 1 ;
 
     function safeMint(
         address to,
@@ -19,16 +19,19 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     ) public onlyOwner {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
+
+        //We can this for custom token id,s
+        // ++tokenId;
     }
 
     // The following functions are overrides required by Solidity.
 
     function _update(
         address to,
-        uint256 tokenId,
+        uint256 _tokenId,
         address auth
     ) internal override(ERC721, ERC721Enumerable) returns (address) {
-        return super._update(to, tokenId, auth);
+        return super._update(to, _tokenId, auth);
     }
 
     function _increaseBalance(
@@ -39,9 +42,9 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function tokenURI(
-        uint256 tokenId
+        uint256 _tokenId
     ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        return super.tokenURI(tokenId);
+        return super.tokenURI(_tokenId);
     }
 
     function supportsInterface(
