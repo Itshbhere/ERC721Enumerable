@@ -24,8 +24,8 @@ You will also need an Ethereum wallet such as [MetaMask](https://metamask.io/) f
 Clone this repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-repo/ERC721Enumerable-NFT.git
-cd ERC721Enumerable-NFT
+git clone https://github.com/Itshbhere/ERC721Enumerable.git
+cd ERC721Enumerable
 npm install
 ```
 
@@ -37,53 +37,6 @@ The contract is based on OpenZeppelin's `ERC721Enumerable` extension. This adds 
 - **`tokenByIndex(uint256 index)`**: Returns the token ID at a given global index.
 - **`tokenOfOwnerByIndex(address owner, uint256 index)`**: Returns the token ID owned by `owner` at a specific index in their token list.
 
-### Smart Contract Code Example
-
-Here’s the contract used in this project:
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-
-contract MyEnumerableNFT is ERC721, ERC721Enumerable {
-    uint256 private _tokenIds;
-
-    constructor() ERC721("MyEnumerableNFT", "MNFT") {}
-
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId,
-        uint256 batchSize
-    ) internal override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, tokenId, batchSize);
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
-    }
-
-    // Minting function to create a new NFT
-    function mint(address to) public {
-        _tokenIds++;
-        _mint(to, _tokenIds);
-    }
-
-    // Get a token ID by index
-    function getTokenByIndex(uint256 index) public view returns (uint256) {
-        require(index < totalSupply(), "Index out of bounds");
-        return tokenByIndex(index);
-    }
-}
-```
 
 ## How to Use
 
@@ -97,12 +50,6 @@ First, compile the contract using Hardhat or Truffle:
 npx hardhat compile
 ```
 
-**Truffle:**
-
-```bash
-truffle compile
-```
-
 ### 2. Deploy the Contract
 
 Deploy the contract to a test network or a local blockchain:
@@ -113,11 +60,6 @@ Deploy the contract to a test network or a local blockchain:
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-**Truffle:**
-
-```bash
-truffle migrate --network development
-```
 
 ### 3. Interact with the Contract
 
